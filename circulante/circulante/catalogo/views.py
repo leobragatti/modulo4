@@ -1,10 +1,11 @@
 # coding: utf-8
 
-from .models import Publicacao
+from .models import Publicacao, Credito
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from django.forms.models import inlineformset_factory
 
 from .isbn import validatedISBN10
 
@@ -34,13 +35,37 @@ def busca(request):
     return render(request, 'catalogo/busca.html', vars_template)
 
 def catalogar(request):
+    CreditoInlineFormSet = inlineformset_factory(Publicacao, Credito)
     if request.method != 'POST':
-        formulario = PublicacaoModelForm()         
+        formulario = PublicacaoModelForm()
+        formset = CreditoInlineFormSet()
     else:
         formulario = PublicacaoModelForm(request.POST)
         if formulario.is_valid():
-            formulario.save()
+            pub = formulario.save()
+            formset = CreditoInlineFormSet(request.POST, instance=pub)
+            formset.save()
             titulo = formulario.cleaned_data['titulo']
             return HttpResponseRedirect(reverse('busca')+'?q='+titulo)   
     return render(request, 'catalogo/catalogar.html',
-        {'formulario':formulario})
+        {'formulario':formulario,
+         'formset': formset})
+
+
+def editar(request, pk):
+    pub = get_object_or_404(Publicacao, pk=pk)
+    CreditoInlineFormSet = inlineformset_factory(Publicacao, Credito)
+    if request.method == 'POST':
+	    formulario = PublicacaoModelForm(request.POST, instance=pub)
+	    if formulario.is_valid():
+			formulario.save()
+            formset = CreditoInlineFormSet(request.POST, instance=pub)
+            formset.save()
+            titulo = formulario.cleaned_data['titulo']
+            return HttpResponseRedirect(reverse('busca')+'?q='+titulo)   
+    else:
+        formulario = PublicacaoModelForm(instance=pub)
+        formset = CreditoInlineFormSet(instance=pub)
+	return render(request, 'catalogo/catalogar.html',
+        {'formulario':formulario,
+         'formset': formset})
