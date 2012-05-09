@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html>
+
+	<head>
+		{% block cabecalho %}
+		<title>Circulante</title>
+		{% endblock %}
+		<link rel="stylesheet" type="text/css" href="{% static 'css/basico.css' %}" />
+	</head>
+
+	<body>
+		
+		<div class="header">
+			<div>
+				<a href="index.html" title="Home"><img src="{% static 'images/circulante-logo.png' %}" alt="circulante" title="Página inicial" /></a>
+			</div>
+		</div>
+		
+		<div class="menu">
+			<div>
+				<ul>
+					<li><a href="{% url busca %}">Busca</a></li><li>|</li>
+					<li><a href="{% url catalogar %}">Catalogar</a></li>
+				</ul>
+			</div>
+		</div>
+	
+		{% block corpo %}
+		<!-- body -->
+		{% endblock %}
+	
+	</body>
+
+</html>

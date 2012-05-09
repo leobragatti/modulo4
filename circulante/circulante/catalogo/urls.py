@@ -6,4 +6,5 @@ urlpatterns = patterns('',
     url(r'busca', busca, name='busca'),
     url(r'catalogar', catalogar, name='catalogar'),
     url(r'editar/(\d+)', editar, name='editar'),
+    url(r'', busca, name='busca'),
 )

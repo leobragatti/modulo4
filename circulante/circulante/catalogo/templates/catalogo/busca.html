@@ -1,10 +1,14 @@
-<html>
-<head>
-    <title>Busca</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block chamada %}Busca{% endblock %}
+
+{% block corpo %}
+
     <h1>Busca de publicações</h1>
-    <p><a href="{% url catalogar %}">Inserir uma nova publicação</a></p>
+    
+    <p>
+        <a href="{% url catalogar %}">Inserir nova publiação</a>
+    </p>
     {% if erros %}
         <ul>
             {% for erro in erros %}
@@ -28,7 +32,8 @@
             {% for pub in publicacoes %}
                 <tr>
                     <td>{{pub.id_padrao}}</td>
-                    <td><a href="{% url editar pub.id%}" >{{pub.titulo}}</a></td>            
+                    <td><a href="{% url editar pub.pk %}">{{pub.titulo}}</a></td>
+            
                 </tr>
             {% endfor %}
         </table>   
@@ -37,5 +42,4 @@
     {% endif %}   
 {% endif %}   
     
-</body>
-</html>
+{% endblock corpo %}
