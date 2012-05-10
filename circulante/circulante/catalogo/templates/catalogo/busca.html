@@ -1,11 +1,21 @@
 {% extends 'base.html' %}
 
+{% block script %}
+<script type="text/javascript">                                         
+    $(document).ready(function() {
+     $("#busca").toggle(function(){
+         $("#stuff").hide('slow');
+       },function(){
+         $("#stuff").show('fast');
+       });
+     });
+</script>  
+{% endblock script %}
+
 {% block chamada %}Busca{% endblock %}
-
 {% block corpo %}
-
+    <div id="stuff">
     <h1>Busca de publicações</h1>
-    
     <p>
         <a href="{% url catalogar %}">Inserir nova publiação</a>
     </p>
@@ -20,6 +30,7 @@
         <input type="text" name="q" value="{{q}}">
         <input type="submit" value="Buscar">
     </form>
+    </div>
 <hr>    
    
 {% if pesquisa %}
