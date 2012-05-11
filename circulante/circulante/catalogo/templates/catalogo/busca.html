@@ -4,12 +4,49 @@
 <script type="text/javascript">                                         
     $(document).ready(function() {
      $("#busca").toggle(function(){
-         $("#stuff").hide('slow');
+         $("#stuff").fadeOut('slow');
        },function(){
-         $("#stuff").show('fast');
+         $("#stuff").fadeIn('slow');
        });
      });
-</script>  
+     
+     $(document).ready(function() {  
+    $('input[type="text"]').addClass("idleField");  
+    $('input[type="text"]').focus(function() {  
+        $(this).removeClass("idleField").addClass("focusField");  
+        if (this.value == this.defaultValue){  
+            this.value = '';  
+        }  
+        if(this.value != this.defaultValue){  
+            this.select();  
+        }  
+    });  
+    $('input[type="text"]').blur(function() {  
+        $(this).removeClass("focusField").addClass("idleField");  
+        if ($.trim(this.value == '')){  
+            this.value = (this.defaultValue ? this.defaultValue : '');  
+        }  
+    });  
+});  
+</script>
+<style type="text/css">
+    #status{  
+        width:50%;  
+        padding:10px;  
+        outline:none;  
+        height:10px;  
+    }  
+    .focusField{  
+        border:solid 2px #73A6FF;  
+        background:#EFF5FF;  
+        color:#000;  
+    }  
+    .idleField{  
+        background:#EEE;  
+        color: #6F6F6F;  
+        border: solid 2px #DFDFDF;  
+    }
+</style>    
 {% endblock script %}
 
 {% block chamada %}Busca{% endblock %}
@@ -27,7 +64,7 @@
         </ul>
     {% endif %}
     <form action="" method="get">
-        <input type="text" name="q" value="{{q}}">
+        <input type="text" id="status" name="q" value="{{q}}">
         <input type="submit" value="Buscar">
     </form>
     </div>
