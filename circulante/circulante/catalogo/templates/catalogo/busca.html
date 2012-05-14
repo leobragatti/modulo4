@@ -2,14 +2,34 @@
 
 {% block script %}
 <script type="text/javascript">                                         
-    $(document).ready(function() {
-     $("#busca").toggle(function(){
-         $("#stuff").fadeOut('slow');
-       },function(){
-         $("#stuff").fadeIn('slow');
-       });
-     });
-     
+
+
+//    $(document).ready(function() {
+//     $("#busca").toggle(function(){
+//         $("#stuff").fadeOut('slow');
+//       },function(){
+//         $("#stuff").fadeIn('slow');
+//       });
+//     });
+    
+    $(document).ready(function(){
+        $("#busca").click(function(){
+//            $("#stuff").html("<h1>teste</h1>");
+//            return false;
+//            alert("teste");
+            $.ajax({
+                url: "{% url catalogar %}",
+                beforeSend:function(){
+				$('#stuff').html("Aguarde enquanto seus dados");
+			    },
+                success: function(data){
+                    $("#stuff").html(data);
+                }
+            });
+            return false;
+        });
+    });
+        
      $(document).ready(function() {  
     $('input[type="text"]').addClass("idleField");  
     $('input[type="text"]').focus(function() {  
@@ -27,11 +47,11 @@
             this.value = (this.defaultValue ? this.defaultValue : '');  
         }  
     });  
-});  
+}); 
+
 </script>
 <style type="text/css">
     #status{  
-        width:50%;  
         padding:10px;  
         outline:none;  
         height:10px;  
